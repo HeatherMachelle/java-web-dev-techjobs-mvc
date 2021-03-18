@@ -23,6 +23,17 @@ public class SearchController {
         return "search";
     }
 
-    // TODO #3 - Create a handler to process a search request and render the updated search view.
+    // #3 - Create a handler to process a search request and render the updated search view.
 
+    @PostMapping("results")
+    @RequestMapping(value = "results")
+    public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam String searchTerm) {
+        ArrayList<Job> jobs;
+        jobs = JobData.findByColumnAndValue(searchType, searchTerm);
+        model.addAttribute("type", searchType);
+        model.addAttribute("columns", columnChoices);
+        model.addAttribute("title", "Search Condition: " + columnChoices.get(searchType) + " Search Term: " + searchTerm);
+        model.addAttribute("jobs", jobs);
+        return "search.html";
+    }
 }
